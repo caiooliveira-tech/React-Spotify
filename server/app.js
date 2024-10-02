@@ -1,9 +1,12 @@
 import express from 'express';
 import conectDb from './db.js';
 import cors from 'cors';
+import artista from './models/Artista.js';
+
 
 const app = express();
-app.use(cors());
+
+app.use(cors(), express.json())
 const conexao = await conectDb()
 
 conexao.on('error', (erro) =>{
@@ -14,6 +17,15 @@ conexao.once('open', () =>{
     console.log('Conectado no MongoDB')
 })
 
+app.get("/palmeira", (req, res) => {
+    res.send("O maior de todos!")
+})
+
 app.listen(3000, () => {
     console.log('Servidor rodando')
+})
+
+app.get("/Artistas", async (req, res) => {
+    const listaArtistas = await artista.find({});
+    res.status(200).json(listaArtistas)
 })
