@@ -5,17 +5,23 @@ import Sidebar from "./components/Sidebar";
 import Container from "./components/Container";
 import SliderCards from "./components/SliderCards";
 import ConteudoPrincipal from "./pages/ConteudoPrincipal";
+import 'ldrs/waveform'
 
 function App() {
 
   const [artistas, setArtistas] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   
   useEffect(() => {
-    fetch('http://localhost:3000/artistas')
-    .then(res => res.json())
-    .then(data => setArtistas(data))
-    .catch(err => console.log(err))
+    setIsLoading(true);
+      setTimeout(() => {
+      fetch('http://localhost:3000/artistas')
+      .then(res => res.json())
+      .then(data => setArtistas(data))
+      .catch(err => console.log(err))
+      .finally(() => setIsLoading(false))
+      }, 5000)
   },[])
 
   return (
@@ -24,6 +30,18 @@ function App() {
       <Container>
         <Sidebar/>
         <ConteudoPrincipal>
+          {isLoading ?
+          <div className="flex flex-col justify-center items-center w-full font-bold gap-4">
+            <p>Carregando...</p>
+              <l-waveform
+                size="55"
+                stroke="3.5"
+                speed="1"
+                color="black" 
+              ></l-waveform>
+            </div>
+          :
+          <>
           <SliderCards titulo="Rock">
             {artistas
             .filter( genero => genero.genres.includes("Rock"))
@@ -42,6 +60,8 @@ function App() {
               <Card key={artista._id} {...artista}/>
             ))}
           </SliderCards>
+          </>
+  }
         </ConteudoPrincipal>
       </Container>
     </>
