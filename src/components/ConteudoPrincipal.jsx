@@ -15,18 +15,20 @@ export default function ConteudoPrincipal() {
     },[])
 
     return (
-        <div className="bg-gray-400 w-3/4 grid grid-cols-4 pl-20 items-center">
-           <>
-          <h1>Rock</h1>
-            {artistas
-            .map(artista => (
-              <Link to={`/artistas/${artista._id}`} key={artista._id}>
-              <div className="bg-red-500 w-28 h-28 flex flex-col justify-around items-center">
-                <h1>{artista.name}</h1>
-              </div>
-              </Link>
-            ))}
-          </>
-        </div>
+        <>
+            <div className="bg-gray-400 w-3/4 pl-20 py-5">
+                <h1 className="text-4xl font-bold">Rock</h1>
+                <div className="grid grid-cols-4 items-center gap-4 mt-5">
+                    {artistas
+                    .map(artista => (
+                    <Link to={`/artistas/${artista._id}`} key={artista._id}>
+                    <div className="bg-red-500 w-28 h-28 flex flex-col justify-around items-center">
+                        <h1 className="text-white font-semibold text-center">{artista.name}</h1>
+                    </div>
+                    </Link>
+                    ))}
+                </div>
+            </div>
+        </>
     )
 }
